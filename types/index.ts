@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 
 import { Id } from "@/convex/_generated/dataModel";
 
+
 export interface EmptyStateProps {
   title: string;
   search?: boolean;
@@ -24,7 +25,14 @@ export interface TopPodcastersProps {
   }[];
   totalPodcasts: number;
 }
-
+export type VoiceType =
+  | "alloy"
+  | "echo"
+  | "fable"
+  | "onyx"
+  | "nova"
+  | "shimmer";
+  
 export interface PodcastProps {
   _id: Id<"podcasts">;
   _creationTime: number;
@@ -40,23 +48,18 @@ export interface PodcastProps {
   authorImageUrl: string;
   voicePrompt: string;
   imagePrompt: string | null;
-  voiceType: string;
+  voiceType: VoiceType; // Changed from string to VoiceType
   audioDuration: number;
   views: number;
 }
+
 
 export interface ProfilePodcastProps {
   podcasts: PodcastProps[];
   listeners: number;
 }
 
-export type VoiceType =
-  | "alloy"
-  | "echo"
-  | "fable"
-  | "onyx"
-  | "nova"
-  | "shimmer";
+
 
 export interface GeneratePodcastProps {
   voiceType: VoiceType;
