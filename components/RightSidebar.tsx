@@ -27,6 +27,7 @@ const RightSidebar = () => {
       <SignedIn>
         <Link href={`/profile/${user?.id}`} className="flex gap-3 pb-12">
           <UserButton />
+          
           <div className="flex w-full items-center justify-between">
             <h1 className="text-16 truncate font-semibold text-white-1">{user?.firstName} {user?.lastName}</h1>
             <Image 
@@ -38,12 +39,16 @@ const RightSidebar = () => {
           </div>
         </Link>
       </SignedIn>
+      
       <section>
         <Header headerTitle="Fans Like You" />
+        
         <Carousel fansLikeDetail={topPodcasters!}/>
       </section>
+      
       <section className="flex flex-col gap-8 pt-12">
-        <Header headerTitle="Top Podcastrs" />
+        <Header headerTitle="Top Podcasters" />
+        
         <div className="flex flex-col gap-6">
           {topPodcasters?.slice(0, 3).map((podcaster) => (
             <div key={podcaster._id} className="flex cursor-pointer justify-between" onClick={() => router.push(`/profile/${podcaster.clerkId}`)}>

@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,7 +33,6 @@ import { useToast } from "@/components/ui/use-toast"
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { useRouter } from "next/navigation"
-import { VoiceType } from "@/types"
 
 const voiceCategories = ['alloy', 'shimmer', 'nova', 'echo', 'fable', 'onyx'];
 
@@ -44,23 +42,24 @@ const formSchema = z.object({
 })
 
 const CreatePodcast = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [imagePrompt, setImagePrompt] = useState('');
-  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null)
+  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
   const [imageUrl, setImageUrl] = useState('');
   
   const [audioUrl, setAudioUrl] = useState('');
-  const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null)
+  const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null);
   const [audioDuration, setAudioDuration] = useState(0);
   
-  const [voiceType, setVoiceType] = useState<VoiceType | null>(null);
+  const [voiceType, setVoiceType] = useState<string | null>(null);
   const [voicePrompt, setVoicePrompt] = useState('');
   
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const createPodcast = useMutation(api.podcasts.createPodcast)
+  const createPodcast = useMutation(api.podcasts.createPodcast);
 
-  const { toast } = useToast()
+  const { toast } = useToast();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -91,9 +90,12 @@ const CreatePodcast = () => {
         voicePrompt,
         views: 0,
         audioDuration,
-        audioStorageId: audioStorageId!,
-        imageStorageId: imageStorageId!,
-      })
+        audioStorageId: audioStorageId!, // Ensure this is not undefined
+        imageStorageId: imageStorageId!, // Ensure this is not undefined
+      });
+      
+      console.log(podcast); // Use the podcast variable
+      
       toast({ title: 'Podcast created' })
       setIsSubmitting(false);
       router.push('/')
@@ -120,9 +122,11 @@ const CreatePodcast = () => {
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2.5">
                   <FormLabel className="text-16 font-bold text-white-1">Title</FormLabel>
+                  
                   <FormControl>
-                    <Input className="input-class focus-visible:ring-offset-orange-1" placeholder="JSM Pro Podcast" {...field} />
+                    <Input className="input-class focus-visible:ring-offset-orange-1" placeholder="F & FAST Pro Podcast" {...field} />
                   </FormControl>
+                  
                   <FormMessage className="text-white-1" />
                 </FormItem>
               )}
@@ -133,13 +137,11 @@ const CreatePodcast = () => {
                 Select AI Voice
               </Label>
 
-              <Select onValueChange={(value) => {
-                const selectedType = value as VoiceType;
-                setVoiceType(selectedType);
-              }}>
+              <Select onValueChange={(value) => setVoiceType(value)}>
                 <SelectTrigger className={cn('text-16 w-full border-none bg-black-1 text-gray-1 focus-visible:ring-offset-orange-1')}>
                   <SelectValue placeholder="Select AI Voice" className="placeholder:text-gray-1 " />
                 </SelectTrigger>
+                
                 <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus:ring-orange-1">
                   {voiceCategories.map((category) => (
                     <SelectItem key={category} value={category} className="capitalize focus:bg-orange-1">
@@ -163,14 +165,17 @@ const CreatePodcast = () => {
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2.5">
                   <FormLabel className="text-16 font-bold text-white-1">Description</FormLabel>
+                  
                   <FormControl>
                     <Textarea className="input-class focus-visible:ring-offset-orange-1" placeholder="Write a short podcast description" {...field} />
                   </FormControl>
+                  
                   <FormMessage className="text-white-1" />
                 </FormItem>
               )}
             />
           </div>
+          
           <div className="flex flex-col pt-10">
               <GeneratePodcast 
                 setAudioStorageId={setAudioStorageId}

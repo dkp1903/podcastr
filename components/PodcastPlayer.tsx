@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -7,7 +8,7 @@ import { formatTime } from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
 import { useAudio } from "@/providers/AudioProvider";
 
-import { Progress } from "./ui/progress";
+import { Progress } from "@/components/ui/progress";
 
 const PodcastPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -105,6 +106,7 @@ const PodcastPlayer = () => {
         className="w-full"
         max={duration}
       />
+      
       <section className="glassmorphism-black flex h-[112px] w-full items-center justify-between px-4 max-md:justify-center max-md:gap-5 md:px-12">
         <audio
           ref={audioRef}
@@ -113,6 +115,7 @@ const PodcastPlayer = () => {
           onLoadedMetadata={handleLoadedMetadata}
           onEnded={handleAudioEnded}
         />
+        
         <div className="flex items-center gap-4 max-md:hidden">
           <Link href={`/podcast/${audio?.podcastId}`}>
             <Image
@@ -123,13 +126,16 @@ const PodcastPlayer = () => {
               className="aspect-square rounded-xl"
             />
           </Link>
+          
           <div className="flex w-[160px] flex-col">
             <h2 className="text-14 truncate font-semibold text-white-1">
               {audio?.title}
             </h2>
+            
             <p className="text-12 font-normal text-white-2">{audio?.author}</p>
           </div>
         </div>
+        
         <div className="flex-center cursor-pointer gap-3 md:gap-6">
           <div className="flex items-center gap-1.5">
             <Image
@@ -139,8 +145,10 @@ const PodcastPlayer = () => {
               alt="rewind"
               onClick={rewind}
             />
+            
             <h2 className="text-12 font-bold text-white-4">-5</h2>
           </div>
+          
           <Image
             src={isPlaying ? "/icons/Pause.svg" : "/icons/Play.svg"}
             width={30}
@@ -148,8 +156,10 @@ const PodcastPlayer = () => {
             alt="play"
             onClick={togglePlayPause}
           />
+          
           <div className="flex items-center gap-1.5">
             <h2 className="text-12 font-bold text-white-4">+5</h2>
+            
             <Image
               src={"/icons/forward.svg"}
               width={24}
@@ -159,10 +169,12 @@ const PodcastPlayer = () => {
             />
           </div>
         </div>
+        
         <div className="flex items-center gap-6">
           <h2 className="text-16 font-normal text-white-2 max-md:hidden">
             {formatTime(duration)}
           </h2>
+          
           <div className="flex w-full gap-2">
             <Image
               src={isMuted ? "/icons/unmute.svg" : "/icons/mute.svg"}

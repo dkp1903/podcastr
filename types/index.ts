@@ -20,7 +20,7 @@ export interface TopPodcastersProps {
   name: string;
   podcast: {
     podcastTitle: string;
-    pocastId: Id<"podcasts">;
+    podcastId: Id<"podcasts">;
   }[];
   totalPodcasts: number;
 }
@@ -50,16 +50,8 @@ export interface ProfilePodcastProps {
   listeners: number;
 }
 
-export type VoiceType =
-  | "alloy"
-  | "echo"
-  | "fable"
-  | "onyx"
-  | "nova"
-  | "shimmer";
-
 export interface GeneratePodcastProps {
-  voiceType: VoiceType;
+  voiceType: string; // VoiceType
   setAudio: Dispatch<SetStateAction<string>>;
   audio: string;
   setAudioStorageId: Dispatch<SetStateAction<Id<"_storage"> | null>>;
@@ -88,15 +80,15 @@ export interface LatestPodcastCardProps {
 }
 
 export interface PodcastDetailPlayerProps {
-  audioUrl: string;
+  audioUrl?: string;
   podcastTitle: string;
   author: string;
-  isOwner: boolean;
-  imageUrl: string;
+  imageUrl?: string;
   podcastId: Id<"podcasts">;
-  imageStorageId: Id<"_storage">;
-  audioStorageId: Id<"_storage">;
-  authorImageUrl: string;
+  imageStorageId?: Id<"_storage">;
+  audioStorageId?: Id<"_storage">;
+  isOwner: boolean;
+  authorImageUrl?: string;
   authorId: string;
 }
 
